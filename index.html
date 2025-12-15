@@ -1,630 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Stephy Mystique — Shop</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>MEZEL'S OUTFIT HUB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
 <style>
-  :root{
-    --primary:#00bcd4; /* sea blue */
-    --muted:#777;
-    --bg:#e0f7fa;
-    --card:#fbfbfb;
-    --max:1100px;
-    --radius:12px;
-  }
-  *{box-sizing:border-box}
-  body{font-family:Inter, Poppins, system-ui, -apple-system, Arial; margin:0; background:var(--bg); color:#222}
-  .app{max-width:var(--max);margin:0 auto}
-  header{background:var(--primary);color:#fff;padding:12px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
-  .brand{font-weight:900;cursor:pointer}
-  .search{ display:flex;max-width:100px;width:100%; margin:0 ;padding:0;boxing-size:border-box; }
-  .search input{flex:1;padding:10px;border-radius:8px 0 0 8px;border:1px solid rgba(0,0,0,0.08)}
-  .search button{padding: 6px 10px;border-radius:0 8px 8px 0;border:1px solid rgba(0,0,0,0.08);background:#fff;cursor:pointer}
-  .icons{display:flex;gap:8px;align-items:center}
-  .icons a{color:#fff;text-decoration:none;position:relative}
-  .badge{position:absolute;top:-6px;right:-8px;background:#d92020;color:#fff;border-radius:999px;padding:2px 6px;font-size:11px}
-  nav{display:flex;gap:8px;padding:10px;background:#fff;border-bottom:1px solid #f1f1f1;overflow:auto}
-  nav button{background:#fff;border:1px solid #f2f2f2;padding:8px 12px;border-radius:999px;cursor:pointer;white-space:nowrap;color:var(--primary)}
-  nav button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
-  main{padding:14px}
-  .hero{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:linear-gradient(90deg,#fff,#fff)}
-  .hero img{max-width:320px;border-radius:10px;object-fit:cover}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:12px}
-  .product{background:var(--card);padding:10px;border-radius:12px;display:flex;flex-direction:column;gap:8px;min-height:270px;box-shadow:0 1px 2px rgba(0,0,0,0.03)}
-  .product .img{height:150px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff}
-  .product .img img{width:100%;height:100%;object-fit:cover}
-  .product h3{margin:0;font-size:1rem}
-  .product p{margin:0;color:var(--muted)}
-  .product .price{color:var(--primary);font-weight:800}
-  .product .actions{display:flex;gap:8px;margin-top:auto}
-  .btn{padding:8px;border-radius:8px;border:0;cursor:pointer}
-  .btn-primary{background:var(--primary);color:#fff}
-  .btn-outline{background:#fff;border:1px solid #ddd}
-  footer.bottom{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:8px 0}
-  footer.bottom a{display:flex;flex-direction:column;align-items:center;font-size:12px;color:#666;text-decoration:none}
-  .muted{color:var(--muted)}
-  .prod{display:flex;gap:18px;flex-wrap:wrap}
-  .prod-left img{width:100%;max-width:420px;border-radius:12px}
-  .prod-right{flex:1;min-width:240px}
-  .qty{width:70px;padding:6px;border-radius:8px;border:1px solid #eee}
-  #cartModal{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:120}
-  #cartBox{background:#fff;padding:16px;border-radius:12px;width:92%;max-width:560px;max-height:80vh;overflow:auto}
-  .cart-row{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0}
-  .cart-row img{width:80px;height:70px;object-fit:cover;border-radius:8px}
-  .cart-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
-  .ceo{display:flex;gap:16px;align-items:center;background:#fff;padding:12px;border-radius:12px;margin:14px 0;box-shadow:0 1px 2px rgba(0,0,0,0.05)}
-  .ceo img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--primary)}
-  .ceo-info h3{margin:0;color:var(--primary)}
-  .ceo-info p{margin:4px 0;color:var(--muted)}
-  .socials a{margin-right:8px;color:var(--primary);text-decoration:none;font-size:18px}
-  #cookieBanner{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:12px 16px;border-top:2px solid var(--primary);display:flex;justify-content:space-between;align-items:center;z-index:200}
-  #cookieBanner button{background:var(--primary);color:#fff;border:0;padding:6px 12px;border-radius:8px;cursor:pointer}
-  .summary-row{display:flex;justify-content:space-between;padding:6px 0}
-  @media (max-width:720px){
-    .grid{grid-template-columns:repeat(2,1fr)}
-    main{padding:10px 10px 72px}
-  }
-  @media (min-width:721px){
-    footer.bottom{display:none}
-    main{padding-bottom:30px}
-  }
- html, body {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
+body{margin:0;font-family:Arial;background:#f4f6fb}
+header{background:#0b2d5c;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center}
+.cart-icon{cursor:pointer;position:relative;font-size:22px}
+.cart-count{position:absolute;top:-6px;right:-8px;background:red;color:#fff;font-size:12px;padding:2px 6px;border-radius:50%}
 
-.app {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 0 8px;
-}
+.categories{display:flex;gap:10px;overflow:auto;background:#fff;padding:10px}
+.categories button{border:none;background:#e8eef9;padding:8px 14px;border-radius:20px;cursor:pointer}
 
-header {
-  display: flex;
-  justify-content: space-between; /* logo/search left, icons right */
-  align-items: center;
-  padding: 0 10px;
-}
+.banner img{width:100%;max-height:280px;object-fit:cover;display:block}
 
-.search {
-  flex: 0 1 auto;       /* takes only needed space */
-  min-width: 60px;      /* can shrink on small screens */
-  max-width: 150px;     /* prevents it from being too long */
-  margin-right: 10px;   /* space between search and icons */
-}
+.trust{display:flex;justify-content:space-around;background:#fff;padding:12px}
 
-.icons {
-  flex-shrink: 0;       /* always visible */
-  display: flex;
-  gap: 8px;             /* spacing between cart and logout */
-}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;padding:20px}
+.card{background:#fff;border-radius:8px;padding:12px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.card img.main{width:100%;height:220px;object-fit:cover;border-radius:6px}
+.thumbs img{width:48px;height:48px;margin:3px;border:2px solid #ddd;cursor:pointer}
+.price{color:#0b2d5c;font-weight:bold}
 
+select,input{width:100%;padding:6px;margin:6px 0}
+button{background:#0b2d5c;color:#fff;border:none;padding:8px;width:100%;border-radius:6px;cursor:pointer}
+
+#cart{position:fixed;top:0;right:-100%;width:360px;height:100%;background:#fff;
+box-shadow:-4px 0 10px rgba(0,0,0,.3);padding:15px;transition:.3s;overflow:auto;z-index:1000}
+#cart.active{right:0}
+.cart-close{text-align:right;cursor:pointer;font-size:18px}
+
+footer{background:#0b2d5c;color:#fff;padding:20px;text-align:center}
+.success{background:#e6ffed;color:#065f46;padding:15px;border-radius:8px;text-align:center;font-weight:bold}
 </style>
 </head>
+
 <body>
-<div class="app">
 
-  <!-- HEADER -->
-  <header>
-    <div style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:0.9rem;color:#fff;opacity:0.95"></div>
-    </div>
-    <div style="display:flex;flex:1;justify-content:flex-end;align-items:center;gap:12px;margin-left:12px">
-      <div class="search" style="flex:1;max-width:700px">
-        <input id="searchInput" placeholder="Search products..." aria-label="Search products">
-        <button id="searchBtn" title="Search"><i class="fa fa-magnifying-glass"></i></button>
-      </div>
-        <div class="icons">
-  <a href="javascript:;" onclick="openCart()" aria-label="View cart">
-    <i class="fa fa-shopping-cart fa-lg"></i>
-    <span id="cartCount" class="badge">0</span>
-  </a>
-  <a href="logout.html" aria-label="Logout">
-    <i class="fa fa-sign-out-alt fa-lg" style="color:#fff"></i>
-  </a>
+<header>
+<h2>MEZEL'S OUTFIT HUB</h2>
+<div class="cart-icon" onclick="toggleCart()">
+<i class="fa-solid fa-cart-shopping"></i>
+<span id="cartCount" class="cart-count">0</span>
+</div>
+</header>
+
+<!-- 🎄 CHRISTMAS IMAGE (ONLINE – NO LOCAL FILE NEEDED) -->
+<div class="banner">
+<img 
+src="https://images.unsplash.com/photo-1544273677-2f1e6bfcf8d3?auto=format&fit=crop&w=1600&q=80"
+alt="Merry Christmas">
 </div>
 
-      </div>
-    </div>
-  </header>
-
-  <!-- NAVIGATION -->
-  <nav id="catBar">
-    <button class="active" onclick="filterCategory(null)">All</button>
-    <button onclick="filterCategory('Beauty')">Beauty</button>
-    <button onclick="filterCategory('Accessories')">Accessories</button>
-    <button onclick="filterCategory('Health')">Health</button>
-    <button onclick="filterCategory('Fashion')">Fashion</button>
-  </nav>
-
-  <!-- MAIN -->
-  <main id="main">
-   <section class="hero">
-  <div class="hero-content">
-    <h1 class="welcome-text">Welcome to Stephy Mystique</h1>
-    <p class="muted"></p>
-  </div>
-</section>
-
-<style>
-  /* Center the content */
-  .hero {
-    text-align: center;
-    margin-bottom: 11px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .hero-content {
-    max-width: 800px; /* Keeps it nicely contained */
-  }
-
-  /* Welcome text styling */
-  .welcome-text {
-    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-    font-size: 18px;       /* Smallish and readable */
-    font-weight: 400;      /* Professional weight */
-    color: #333;           /* Elegant dark gray */
-    letter-spacing: 0.5px; /* Subtle spacing */
-    margin: 0;             /* Remove extra spacing */
-  }
-
-  /* Optional muted text styling */
-  .muted {
-    color: #666;
-    font-size: 14px;
-    margin-top: 5px;
-  }
-</style>
-
-  <img src="images/logo.png" alt="Stephy Mystique Logo" style="max-width:80px; margin-top:2px;">
-</section>
-
-    <!-- CEO SECTION -->
-    <section class="ceo">
-      <img src="images/ceo.jpg" alt="CEO Ileona Aniagyei">
-      <div class="ceo-info">
-        <h3>Stephanie Aniagyei</h3>
-        <p>Founder & CEO, Stephy Mystique</p>
-        <div class="socials">
-          <a href="https://x.com/stephyhaizel?t=uU7u6bKVsdcZ" target="_blank"><i class="fab fa-x-twitter"></i></a>
-          <a href="https://www.instagram.com/adjowa_serwaa_akoto?igsh=MWFycTd4NWl2N3Fu" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://chat.whatsapp.com/FylrHzjqDBDJt9XooLbbyI?mode=wwt" target="_blank" aria-label="Join our WhatsApp Group"><i class="fa-brands fa-whatsapp fa-lg" style="color:#25D366"></i></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRODUCTS GRID -->
-    <section>
-      <h2 style="margin:6px 0">Products</h2>
-      <div id="productsGrid" class="grid"></div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="bottom">
-    <a href="javascript:;" onclick="showView('home')"><i class="fa fa-house"></i><span>Home</span></a>
-    <a href="javascript:;" onclick="showView('products')"><i class="fa fa-list"></i><span>Shop</span></a>
-    <a href="javascript:;" onclick="openCart()"><i class="fa fa-cart-shopping"></i><span>Cart</span></a>
-    <a href="javascript:;" onclick="showView('account')"><i class="fa fa-user"></i><span>Account</span></a>
-  </footer>
+<!-- CATEGORIES -->
+<div class="categories">
+<button onclick="filterCat('All')">All</button>
+<button onclick="filterCat('Fashion')">Fashion</button>
+<button onclick="filterCat('Bags')">Bags</button>
+<button onclick="filterCat('Nightwear')">Nightwear</button>
+<button onclick="filterCat('Accessories')">Accessories</button>
 </div>
 
-<!-- CART MODAL -->
-<div id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
-  <div id="cartBox">
-    <h2 id="cartTitle" style="margin-top:0;color:var(--primary)">Your Cart</h2>
-
-    <!-- delivery selection (per-location fees) -->
-    <div style="margin-bottom:8px">
-      <label for="deliverySelect" style="font-weight:700">Delivery Location:</label>
-      <select id="deliverySelect" onchange="renderCartItems()" style="margin-left:8px;padding:6px;border-radius:8px;border:1px solid #eee">
-        <option value="accra">Accra - ₵35.00</option>
-        <option value="kumasi">Kumasi - ₵50.00</option>
-        <option value="cape_coast">Cape Coast - ₵15.00</option>
-        <option value="tamale">Tamale - ₵65.00</option>
-        <option value="other">Volta - ₵55.00</option>
-      </select>
-    </div>
-
-    <div id="cartItems"></div>
-
-    <div id="cartSummary" style="margin-top:12px"></div>
-
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-      <button class="btn btn-outline" onclick="closeCart()">Close</button>
-      <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
-      <button class="btn btn-primary" onclick="proceedCheckout()">Checkout</button>
-    </div>
-  </div>
+<div class="trust">
+<div>🚚 Shipping Paid on Delivery</div>
+<div>⭐ Trusted Products</div>
+<div>🔒 Secure Payment</div>
 </div>
 
-<!-- COOKIE BANNER -->
-<div id="cookieBanner">
-  <span>We use cookies to enhance your experience. By continuing, you agree to our use of cookies.</span>
-  <button onclick="acceptCookies()">Accept</button>
+<div class="products" id="products"></div>
+
+<!-- CART -->
+<div id="cart">
+<div class="cart-close" onclick="toggleCart()"><i class="fa-solid fa-xmark"></i></div>
+<h3>Your Cart</h3>
+<div id="cartItems"></div>
+<p><b>Tax:</b> GH¢2</p>
+<p><b>Total:</b> GH¢<span id="total">0</span></p>
+
+<h3>Delivery Details</h3>
+<input placeholder="Full Name">
+<input placeholder="Phone Number">
+<input placeholder="Delivery Address">
+
+<select>
+<option>Select Shipping</option>
+<option>Speedaf</option>
+<option>Yango</option>
+<option>Bolt</option>
+</select>
+
+<p><em>Shipping paid on delivery</em></p>
+<button onclick="pay()">Pay Now</button>
 </div>
+
+<footer>
+<h3>Why Choose Us</h3>
+<p>
+MEZEL'S OUTFIT HUB provides quality fashion items at affordable prices.
+Customer satisfaction is our priority.
+</p>
+</footer>
 
 <script>
-/* ---------- Config ---------- */
-const TAX_FLAT = 0.69; // ₵0.69 flat tax per order
-const DELIVERY_TEXT = 'Delivery takes 1 week.';
-const ADMIN_EMAIL = 'girlpowerghana@gmail.com'; // merchant notification
-const PAYSTACK_KEY = 'pk_live_640af38072f48339462a8937bed12dda2774a34d'; // kept as in your file
+const TAX=2;
+let cart=[],sum=0;
 
-/* ---------- Delivery fees mapping (update as you like) ---------- */
-const DELIVERY_FEES = {
-  accra: {label:'Accra', fee:35},
-  kumasi: {label:'Kumasi', fee:50},
-  cape_coast: {label:'Cape Coast', fee:15},
-  tamale: {label:'Tamale', fee:65},
-  other: {label:'Volta', fee:55}
-};
+// IMPORTANT:
+// Product images try to load from /images/
+// If missing, they FALL BACK automatically (no broken images)
+const FALLBACK_IMG="https://via.placeholder.com/600x600?text=Product+Image";
 
-/* ---------- Cookie ---------- */
-function acceptCookies(){ document.getElementById('cookieBanner').style.display='none'; localStorage.setItem('sm_cookies','accepted'); }
-if(localStorage.getItem('sm_cookies')==='accepted') document.getElementById('cookieBanner').style.display='none';
-
-/* ---------- Product Data (31 items) ---------- */
-const productList = [
-  {id:'p1', image:'images/product1.jpg', title:'pimple patch', price:50, category:'Beauty'},
-  {id:'p2', image:'images/product2.jpg', title:'Lip Mask', price:10, category:'Beauty'},
-  {id:'p3', image:'images/product3.jpg', title:'Lip gloss', price:15, category:'Beauty'},
-  {id:'p4', image:'images/product4.jpg', title:'Lip Oil', price:25, category:'Beauty'},
-  {id:'p5', image:'images/product5.jpg', title:'Petal Soap', price:10, category:'Beauty'},
-  {id:'p6', image:'images/product6.jpg', title:'Kiss Beauty Coffee Lip Scrub', price:15, category:'Beauty'},
-  {id:'p7', image:'images/product7.jpg', title:'Romantic Rain Lip Gloss', price:25, category:'Beauty'},
-  {id:'p8', image:'images/product8.jpg', title:'Double Sided Face Brush', price:35, category:'Accessories'},
-  {id:'p9', image:'images/product9.jpg', title:'Classic Lip Balm', price:20, category:'Beauty'},
-  {id:'p10', image:'images/product10.jpg', title:'Vaseline Lip Therapy', price:16, category:'Beauty'},
-  {id:'p11', image:'images/product11.jpg', title:'Two in one Lip Oil', price:15, category:'Beauty'},
-  {id:'p12', image:'images/product12.jpg', title:'24k Pure Pink Perfume', price:100, category:'Beauty'},
-  {id:'p13', image:'images/product13.jpg', title:'RJ Pink Lips Cream', price:60, category:'Beauty'},
-  {id:'p14', image:'images/product14.jpg', title:'Clear Lip Gloss', price:16, category:'Beauty'},
-  {id:'p15', image:'images/product15.jpg', title:'Normal Lip Gloss', price:10, category:'Beauty'},
-  {id:'p16', image:'images/product16.jpg', title:'Face Mask', price:10, category:'Beauty'},
-  {id:'p17', image:'images/product17.jpg', title:'Necklace', price:20, category:'Accessories'},
-  {id:'p18', image:'images/product18.jpg', title:'Hand Cream', price:10, category:'Beauty'},
-  {id:'p19', image:'images/product19.jpg', title:'Tongue Scraper', price:20, category:'Health'},
-  {id:'p20', image:'images/product20.jpg', title:'Eyebrow & Facial Razor', price:10, category:'Accessories'},
-  {id:'p21', image:'images/product21.jpg', title:'Earrings', price:25, category:'Beauty'},
-  {id:'p22', image:'images/product22.jpg', title:'Smart World', price:60, category:'Beauty'},
-  {id:'p23', image:'images/product23.jpg', title:'Choco Musk Perfume', price:100, category:'Beauty'},
-  {id:'p24', image:'images/product24.jpg', title:'Miss Anna Perfume', price:50, category:'Beauty'},
-  {id:'p25', image:'images/product25.jpg', title:'Play Sport Hanna', price:120, category:'Beauty'},
-  {id:'p26', image:'images/product26.jpg', title:'Body splash', price:65, category:'Beauty'},
-  {id:'p27', image:'images/product27.jpg', title:'ASAD', price:70, category:'Beauty'},
-  {id:'p28', image:'images/product28.jpg', title:'H&S perfume', price:50, category:'Beauty'},
-  {id:'p29', image:'images/product29.jpg', title:'Fantasy beauty', price:120, category:'Beauty'},
-  {id:'p30', image:'images/product30.jpg', title:'butterfly necklace', price:20, category:'Fashion'},
-  {id:'p31', image:'images/product31.jpg', title:'Necklace', price:20, category:'Fashion'}
+const productsData=[
+{cat:'Nightwear',n:"Pyjamas with Slippers",p:120,d:"Wine colour pyjamas with slippers.",img:["1.jpg"]},
+{cat:'Bags',n:"Teddy Bear Bag",p:130,d:"Cute teddy bear bag.",img:["2-1.jpg","2-2.jpg","2-3.jpg"]},
+{cat:'Bags',n:"Teddy Tote Bag",p:130,d:"Stylish teddy tote bag.",img:["3-1.jpg","3-2.jpg","3-3.jpg","3-4.jpg"]},
+{cat:'Nightwear',n:"Inner & Coat Nightwear",p:110,d:"Free size inner & coat nightwear.",img:["4-1.jpg","4-2.jpg","4-3.jpg"]},
+{cat:'Bags',n:"Hand Bag",p:160,d:"Elegant ladies handbag.",img:["5-1.jpg"]},
+{cat:'Bags',n:"Summer Bag",p:90,d:"Lightweight summer bag.",img:["6-1.jpg","6-2.jpg","6-3.jpg"],colors:["Blue","Pink","Mixed"]},
+{cat:'Fashion',n:"Unisex Shirt",p:125,d:"Quality unisex shirt.",img:["7-1.jpg","7-2.jpg"],colors:["Brown","Blue Black","Grey"]},
+{cat:'Accessories',n:"Stanley Cup",p:200,d:"Original Stanley insulated cup.",img:["8-1.jpg","8-2.jpg","8-3.jpg","8-4.jpg"]},
+{cat:'Nightwear',n:"Nightwear with Pockets",p:60,d:"Comfortable nightwear with pockets.",img:["9-1.jpg"]},
+{cat:'Fashion',n:"Unisex T-Shirt 320g",p:110,d:"Heavy 320g T-shirt.",img:["10-1.jpg","10-2.jpg","10-3.jpg"],sizes:["M","L","XL","2XL"]},
+{cat:'Bags',n:"Small Bags",p:60,d:"Mini fashion bags.",img:["11-1.jpg","11-2.jpg","11-3.jpg"]},
+{cat:'Bags',n:"Canvas Bag",p:90,d:"Durable canvas bag.",img:["12-1.jpg","12-2.jpg","12-3.jpg"]},
+{cat:'Fashion',n:"Long Sleeve Shirt",p:140,d:"Classic long sleeve shirt.",img:["13-1.jpg","13-2.jpg","13-3.jpg","13-4.jpg"],sizes:["M","L","XL","2XL"]}
 ];
 
-/* ---------- Cart using localStorage ---------- */
-const CART_KEY = 'sm_cart_v4';
-function getCart(){ try{ return JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch(e){ return {}; } }
-function saveCart(cart){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); renderCartCount(); }
-function addToCart(id, qty=1){
-  const cart = getCart();
-  cart[id] = (cart[id]||0) + qty;
-  saveCart(cart);
-  showToast('Added to cart');
-}
-function updateQty(id, qty){ const cart = getCart(); if(qty<=0) delete cart[id]; else cart[id]=qty; saveCart(cart); renderCartItems(); }
-function removeItem(id){ const cart = getCart(); delete cart[id]; saveCart(cart); renderCartItems(); }
-function clearCart(){ if(!confirm('Clear all items from cart?')) return; localStorage.removeItem(CART_KEY); renderCartItems(); renderCartCount(); }
+const wrap=document.getElementById("products");
 
-/* ---------- Render product grid ---------- */
-const grid = document.getElementById('productsGrid');
-function renderProducts(list = productList){
-  grid.innerHTML = '';
-  list.forEach(p=>{
-    const div = document.createElement('div');
-    div.className = 'product';
-    div.innerHTML = `
-      <div class="img"><img src="${p.image}" alt="${escapeHtml(p.title)}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'"></div>
-      <h3>${escapeHtml(p.title)}</h3>
-      <p class="price">₵${p.price.toFixed(2)}</p>
-      <div class="actions">
-        <button class="btn btn-outline" onclick="viewProduct('${p.id}')">View</button>
-        <button class="btn btn-primary" onclick="addToCart('${p.id}',1)">Add to Cart</button>
-      </div>
-    `;
-    grid.appendChild(div);
-  });
-}
-
-/* ---------- Filter / search ---------- */
-function filterCategory(cat){
-  document.querySelectorAll('#catBar button').forEach(b=>b.classList.remove('active'));
-  const btns = Array.from(document.querySelectorAll('#catBar button'));
-  const match = btns.find(b => b.textContent === (cat || 'All'));
-  if(match) match.classList.add('active');
-  if(!cat){ renderProducts(); return; }
-  const filtered = productList.filter(p=>p.category === cat);
-  renderProducts(filtered);
-}
-document.getElementById('searchBtn').addEventListener('click', ()=> {
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
-  if(!q){ renderProducts(); return; }
-  const results = productList.filter(p=> p.title.toLowerCase().includes(q) || (p.category||'').toLowerCase().includes(q));
-  renderProducts(results);
+function render(list){
+wrap.innerHTML='';
+list.forEach((x,i)=>{
+let html=`<div class="card">
+<img class="main" src="images/${x.img[0]}" onerror="this.src='${FALLBACK_IMG}'">
+<div class="thumbs">${
+x.img.map(y=>`<img src="images/${y}" onerror="this.src='${FALLBACK_IMG}'"
+onclick="this.parentElement.previousElementSibling.src=this.src">`).join("")
+}</div>
+<h4>${x.n}</h4>
+<p>${x.d}</p>
+<p class="price">GH¢${x.p}</p>`;
+if(x.colors) html+=`<select>${x.colors.map(c=>`<option>${c}</option>`).join("")}</select>`;
+if(x.sizes) html+=`<select>${x.sizes.map(s=>`<option>${s}</option>`).join("")}</select>`;
+html+=`<button onclick="add(${i})">Add to Cart</button></div>`;
+wrap.innerHTML+=html;
 });
-document.getElementById('searchInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') document.getElementById('searchBtn').click(); });
-
-/* ---------- Cart UI ---------- */
-function renderCartCount(){
-  const cart = getCart();
-  const count = Object.values(cart).reduce((s,v)=>s+v,0);
-  document.getElementById('cartCount').textContent = count;
-}
-function openCart(){
-  renderCartItems();
-  document.getElementById('cartModal').style.display='flex';
-}
-function closeCart(){ document.getElementById('cartModal').style.display='none'; }
-function renderCartItems(){
-  const container = document.getElementById('cartItems');
-  const summary = document.getElementById('cartSummary');
-  const cart = getCart();
-  const ids = Object.keys(cart);
-  container.innerHTML='';
-  if(ids.length===0){
-    container.innerHTML='<p class="muted">Your cart is empty.</p>';
-    summary.innerHTML='';
-    renderCartCount();
-    return;
-  }
-  let subtotal=0;
-  ids.forEach(id=>{
-    const qty=cart[id];
-    const p=productList.find(x=>x.id===id);
-    if(!p) return;
-    const row=document.createElement('div');
-    row.className='cart-row';
-    row.innerHTML=`
-      <img src="${p.image}" alt="${escapeHtml(p.title)}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
-      <div style="flex:1">
-        <div style="font-weight:700">${escapeHtml(p.title)}</div>
-        <div class="muted">₵${p.price.toFixed(2)} x 
-          <input type="number" min="1" value="${qty}" style="width:70px;padding:6px;border-radius:6px;border:1px solid #eee" onchange="onQtyChange('${id}',this.value)">
-          = ₵<span>${(p.price*qty).toFixed(2)}</span>
-        </div>
-      </div>
-      <div>
-        <button onclick="removeItem('${id}')" title="Remove item">Remove</button>
-      </div>
-    `;
-    container.appendChild(row);
-    subtotal+=p.price*qty;
-  });
-
-  // delivery selection
-  const deliveryKey = document.getElementById('deliverySelect') ? document.getElementById('deliverySelect').value : 'accra';
-  const deliveryInfo = DELIVERY_FEES[deliveryKey] || {label:'Unknown', fee:0};
-  const deliveryFee = deliveryInfo.fee || 0;
-
-  const tax = TAX_FLAT;
-  const total = subtotal + deliveryFee + tax;
-
-  summary.innerHTML = `
-    <div class="summary-row"><div>Subtotal</div><div>₵${subtotal.toFixed(2)}</div></div>
-    <div class="summary-row"><div>Delivery (${deliveryInfo.label})</div><div>₵${deliveryFee.toFixed(2)}</div></div>
-    <div class="summary-row"><div>Tax (flat)</div><div>₵${tax.toFixed(2)}</div></div>
-    <div style="border-top:1px solid #eee;margin-top:8px;padding-top:8px;font-weight:700" class="summary-row"><div>Total</div><div>₵${total.toFixed(2)}</div></div>
-    <div style="margin-top:8px;color:var(--muted);font-size:13px">${DELIVERY_TEXT}</div>
-  `;
-  renderCartCount();
-}
-function onQtyChange(id,value){ const v=parseInt(value)||1; updateQty(id,v); }
-
-/* ---------- Checkout with Paystack (includes delivery fee, tax, collects email & name, tracking & emails) ---------- */
-function proceedCheckout(){
-  const cart = getCart();
-  const ids = Object.keys(cart);
-  if(ids.length===0){ alert('Your cart is empty'); return; }
-
-  // collect name & email & delivery address
-  const name = prompt('Enter your full name for the order:');
-  if(!name) return alert('Checkout cancelled');
-  const email = prompt('Enter your email (so we can send your receipt):');
-  if(!email) return alert('Checkout cancelled');
-  const phone = prompt('Enter phone / WhatsApp number for delivery:');
-  if(!phone) return alert('Checkout cancelled');
-  const address = prompt('Enter delivery address (street / landmark):');
-  if(!address) return alert('Checkout cancelled');
-
-  // Calculate subtotal & build items list
-  let subtotal = 0;
-  const items = [];
-  ids.forEach(id=>{
-    const p = productList.find(x=>x.id===id);
-    if(!p) return;
-    const qty = cart[id];
-    subtotal += p.price * qty;
-    items.push({id:p.id, title:p.title, price:p.price, qty});
-  });
-
-  // delivery selection
-  const deliveryKey = document.getElementById('deliverySelect') ? document.getElementById('deliverySelect').value : 'accra';
-  const deliveryInfo = DELIVERY_FEES[deliveryKey] || {label:'Unknown', fee:0};
-  const deliveryFee = deliveryInfo.fee || 0;
-
-  const tax = TAX_FLAT;
-  const total = subtotal + deliveryFee + tax;
-
-  // generate tracking number (GP-2025-XXXXXX)
-  const tracking = 'GP-2025-' + String(Math.floor(100000 + Math.random()*900000));
-
-  // Prepare metadata for Paystack
-  const metadata = {
-    custom_fields: [
-      {display_name: "Customer Name", variable_name: "customer_name", value: name},
-      {display_name: "Customer Email", variable_name: "customer_email", value: email},
-      {display_name: "Customer Phone", variable_name: "customer_phone", value: phone},
-      {display_name: "Delivery Address", variable_name: "delivery_address", value: address},
-      {display_name: "Delivery Location", variable_name: "delivery_location", value: deliveryInfo.label},
-      {display_name: "Delivery Fee", variable_name: "delivery_fee", value: deliveryFee},
-      {display_name: "Tracking Number", variable_name: "tracking_number", value: tracking},
-      {display_name: "Delivery ETA", variable_name: "delivery_eta", value: "1 week"}
-    ],
-    items: items
-  };
-
-  // Paystack integration (keep your key)
-  const handler = PaystackPop.setup({
-    key: PAYSTACK_KEY,
-    email: email,
-    amount: Math.round(total * 100), // Paystack expects amount in kobo
-    currency: 'GHS',
-    metadata: metadata,
-    ref: ''+Math.floor((Math.random() * 1000000000) + 1),
-    callback: function(response){
-      // Payment successful
-      // Clear cart
-      localStorage.removeItem(CART_KEY);
-      renderCartCount();
-      renderCartItems();
-      closeCart();
-
-      // Show success + tracking to user
-      const msg = `Payment successful! Reference: ${response.reference}\n\nThank you ${name} — your tracking number is ${tracking}.\n${DELIVERY_TEXT}`;
-      alert(msg);
-
-      // Prepare email text
-      const itemsText = items.map(it => `${it.title} x${it.qty} — ₵${(it.price*it.qty).toFixed(2)}`).join('\n');
-      const fullOrderText = `Order Details:%0D%0A${itemsText}%0D%0A%0D%0ASubtotal: ₵${subtotal.toFixed(2)}%0D%0ADelivery (${deliveryInfo.label}): ₵${deliveryFee.toFixed(2)}%0D%0ATax: ₵${tax.toFixed(2)}%0D%0ATotal: ₵${total.toFixed(2)}%0D%0A%0D%0ATracking Number: ${tracking}%0D%0AReference: ${response.reference}%0D%0ACustomer: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}%0D%0AAddress: ${address}%0D%0A%0D%0A${DELIVERY_TEXT}`;
-
-      // Open mailto for customer (their mail client)
-      const customerSubject = encodeURIComponent(`Stephy Mystique Order Receipt — ${tracking}`);
-      window.location.href = `mailto:${encodeURIComponent(email)}?subject=${customerSubject}&body=${fullOrderText}`;
-
-      // Open merchant email in new tab to notify (merchant can forward or save)
-      const merchantSubject = encodeURIComponent(`New Order: ${tracking} — ${name}`);
-      window.open(`mailto:${ADMIN_EMAIL}?subject=${merchantSubject}&body=${fullOrderText}`, '_blank');
-    },
-    onClose: function(){
-      alert('Payment cancelled.');
-    }
-  });
-  handler.openIframe();
 }
 
-/* ---------- Product view ---------- */
-function viewProduct(id){
-  const p = productList.find(x=>x.id===id);
-  if(!p) return alert('Product not found');
-  const box = document.getElementById('prodDetail') || document.createElement('div');
-  if(!box.id) box.id='prodDetail';
-  box.innerHTML=`
-    <div class="prod">
-      <div class="prod-left"><img src="${p.image}" alt="${escapeHtml(p.title)}" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'"></div>
-      <div class="prod-right">
-        <h2 style="margin:0">${escapeHtml(p.title)}</h2>
-        <div class="muted" style="margin-top:6px">${escapeHtml(p.category)}</div>
-        <div style="color:var(--primary);font-weight:800;margin-top:8px">₵${p.price.toFixed(2)}</div>
-        <p style="margin-top:8px" class="muted">Demo description — products are exactly what you see.</p>
-        <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
-          <label>Qty <input id="prodQty" type="number" min="1" value="1" class="qty"></label>
-          <button class="btn btn-primary" onclick="(function(){ addToCart('${p.id}',parseInt(document.getElementById('prodQty').value)||1 ); showToast('Added to cart'); })()">Add to cart</button>
-          <button class="btn btn-outline" onclick="closeProd()">Close</button>
-        </div>
-      </div>
-    </div>
-  `;
-  document.getElementById('prodModal').style.display='flex';
-}
-function closeProd(){ document.getElementById('prodModal').style.display='none'; }
+render(productsData);
 
-/* ---------- Account / Login ---------- */
-function showView(which){
-  if(which==='account'){
-    const name = localStorage.getItem('sm_user_name');
-    if(name){
-      const ok = confirm('You are logged in as '+name+'. Click OK to logout, Cancel to stay.');
-      if(ok){ localStorage.removeItem('sm_user_name'); alert('Logged out'); }
-    } else {
-      const nm = prompt('Enter your name to login (demo):');
-      if(nm){ localStorage.setItem('sm_user_name', nm); alert('Logged in as '+nm); }
-    }
-  } else if(which==='home'){ window.scrollTo({top:0,behavior:'smooth'}); }
-  else if(which==='products'){ window.scrollTo({top: document.querySelector('main').offsetTop, behavior:'smooth'}); }
+function filterCat(cat){
+if(cat==='All') render(productsData);
+else render(productsData.filter(p=>p.cat===cat));
 }
 
-/* ---------- Toast ---------- */
-let toastTimer = null;
-function showToast(msg){
-  const t=document.createElement('div');
-  t.textContent=msg;
-  t.style.position='fixed';
-  t.style.bottom='100px';
-  t.style.left='50%';
-  t.style.transform='translateX(-50%)';
-  t.style.background='rgba(0,0,0,0.8)';
-  t.style.color='#fff';
-  t.style.padding='8px 12px';
-  t.style.borderRadius='8px';
-  t.style.zIndex=200;
-  document.body.appendChild(t);
-  if(toastTimer) clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>{ t.remove(); },1500);
+function toggleCart(){
+document.getElementById("cart").classList.toggle("active");
 }
 
-/* ---------- Utilities ---------- */
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function add(i){
+cart.push(productsData[i]);
+sum+=productsData[i].p;
+document.getElementById("cartItems").innerHTML+=`<p>${productsData[i].n} – GH¢${productsData[i].p}</p>`;
+document.getElementById("total").innerText=sum+TAX;
+document.getElementById("cartCount").innerText=cart.length;
+document.getElementById("cart").classList.add("active");
+}
 
-/* ---------- Init ---------- */
-renderProducts();
-renderCartCount();
-renderCartItems();
+function pay(){
+PaystackPop.setup({
+key:"pk_test_xxxxxxxxxxxxx",
+email:"customer@email.com",
+amount:(sum+TAX)*100,
+currency:"GHS",
+callback:function(){
+document.getElementById("cart").innerHTML=`<div class="success">
+Thank you for shopping with MEZEL'S OUTFIT HUB 💙<br>
+Payment successful.<br>
+We will contact you shortly.
+</div>`;
+}
+}).openIframe();
+}
 </script>
 
-<!-- Product Modal -->
-<div id="prodModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;z-index:110">
-  <div style="background:#fff;padding:14px;border-radius:12px;width:92%;max-width:720px;max-height:90vh;overflow:auto">
-    <button style="float:right;background:none;border:none;font-size:18px;cursor:pointer" onclick="closeProd()">✕</button>
-    <div id="prodDetail"></div>
-  </div>
-</div>
-
-<!-- Paystack script -->
-<script src="https://js.paystack.co/v1/inline.js"></script>
-  
- <footer style="text-align:center; padding:20px; background-color:#ffffff; font-family:Arial, sans-serif;">
-  &copy; 2025 StephyMystique. All rights reserved. <br>
-  Website created by Ileona Aniagyei | Contact: 0579795246
-</footer> 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
